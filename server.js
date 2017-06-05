@@ -8,15 +8,31 @@ User Story: When I visit that shortened URL,
 it will redirect me to my original link.
 
  */
+ let Module = function(){
 
+
+ let debug = require('debug')('test');
  let express = require('express');
  let bodyParser = require('body-parser');
  let app = express();
  let port = process.env.PORT || 3000;
- //create route for /new/
+ let urls = {original_url:"", short_url:""};
 
- //get the input after /new/
+ app.use(express.static('public'));
 
-//
+  //create route for /new/
+   //get the input after /new/
+ app.get('/new/:url', (req,res) => {
 
-app.listen(port);
+
+   urls.originalUrl = req.params.url;
+   res.send(console.log(urls.originalUrl));
+ });
+ //short url is hostname + port + path + unique id
+
+
+app.listen(port, () => {
+  console.log("Server is listening on " + port);
+});
+
+}();
