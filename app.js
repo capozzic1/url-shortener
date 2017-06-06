@@ -15,6 +15,9 @@ it will redirect me to my original link.
  const port = process.env.PORT || 3000;
  const urlShortener = require('./routes/urlshortener');
  const app = express();
+ const mongoose = require('mongoose');
+
+ mongoose.connect('mongodb://localhost:27017/shorturl');
 
  app.use(express.static('public'));
  app.use('/', urlShortener);
