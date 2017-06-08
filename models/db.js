@@ -9,29 +9,39 @@ let URLSchema = new Schema({
 });
 
 //make a model
-let URL = module.exports =  mongoose.model('URL', URLSchema);
 
-/*test.save(function(err, test){
-  if (err) return console.error(err);
+let URL = module.exports = mongoose.model('URL', URLSchema);
 
-  console.log("saved");
-
+/*let newShortUrl = new URL({
+  original_url : "www.yolo.com",
+  link_id: 7777,
+  short_url:"yolo"
 });
 */
 
+//console.log(newShortUrl);
+
 module.exports = {
     checkUrl(url){
+    return new Promise((resolve,reject) => {
+        URL.find({original_url: url}, (err,docs) => {
+          if (err) return console.error(err);
+          if (docs.length > 0) {
+            resolve([true, url]);
+          } else {
+            resolve([false, url]);
+          }
 
-      URL.find({original_url: url}, function(err, docs){
-        if (err) return console.error(err);
-        //if url is found, this is true, else false
-        let truFal = docs.length > 0 ? true : false;
-        console.log("trufal");
-        return truFal;
+      })
+    })
+  },
 
-      });
-
-
+    getLink(url){
+      return new Promise((resolve, reject) => {
+        URL.find({original_url: url}, {'_id' : 0, '__v': 0}, (err, url) => {
+          if (err) return console.error(err);
+          resolve(url);
+        })
+      })
     }
-
-};
+}

@@ -1,52 +1,70 @@
 
+
+
 const express = require('express');
 const bodyParser = require('body-parser');
 //mini app for different routes, better for modularity
 const router = express.Router();
 const testUrl = require('../controllers/testUrl');
 const linkGen = require('../controllers/linkGenerator');
-let db = require('../models/db');
+const mongoose = require('mongoose');
 
+let db = require('../models/db');
+let URL = require('mongoose').model('URL');
 
 //route url shortener
 
 
 router.get('/new/:url', (req,res) => {
-
+  let url = req.params.url;
 
   //check if url is valid
-  if (testUrl(req.params.url)) {
+  if (testUrl(url)) {
 
-  let exists = db.checkUrl(req.params.url);
-  let url = req.params.url;
-  handleLinks(exists, url);
-  //console.log(db.checkUrl(4));
-  //check to see if it exists in the db
-  //if doesn't exist, generate a link
+  let queryDb = db.checkUrl(url)
+  .then(handleLinks,
+    (reject) => {
+      console.log(reject);
 
-  //add into database
+    });
 
   } else {
   console.log("Url is not valid");
   }
-  //troubleshoot this function
-  function handleLinks(exist, uri){
-    console.log(exist + "test");
-    if (exist === false){
-      console.log("TESTING");
+
+
+  function handleLinks([exists, url]){
+    console.log(exists);
+
+    if (exists === false){
     //create new link number
     let id = linkGen();
     //create a new short url
     let shortUrl = 'localhost:3000/' + id;
+
     let newShortUrl = new URL({
-      original_url : uri,
+      original_url : url,
       link_id: id,
       short_url:shortUrl
     });
+    //save into db
+    newShortUrl.save((err) => {
+      if (err) return console.error(err);
+    });
+    //send response
+    db.getLink(url).then(getShortObj);
+  //if url does exist in db
+  } else {
+    db.getLink(url).then(getShortObj);
 
-    console.log(newShortUrl);
-    }
+  }
 
+  }
+
+  function getShortObj(urlObj, reject) {
+    if (reject) return console.error(reject);
+
+    res.json({urlObj});
   }
 
 
