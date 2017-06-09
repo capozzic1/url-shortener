@@ -12,9 +12,9 @@ const mongoose = require('mongoose');
 let db = require('../models/db');
 let URL = require('mongoose').model('URL');
 
-//route url shortener
 
 
+//route for creating links / sending json response
 router.get('/new/:url', (req,res) => {
   let url = req.params.url;
 

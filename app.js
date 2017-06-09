@@ -13,14 +13,16 @@ it will redirect me to my original link.
 
  const express = require('express');
  const port = process.env.PORT || 3000;
- const urlShortener = require('./routes/urlshortener');
+ const createURL = require('./routes/createURL');
+ const redirectURL = require('./routes/redirect')
  const app = express();
  const mongoose = require('mongoose');
 
  mongoose.connect('mongodb://localhost:27017/shorturl');
 
  app.use(express.static('public'));
- app.use('/', urlShortener);
+ app.use('/', createURL);
+ app.use('/', redirectURL);
 
  app.listen(port, () => {
     console.log("Server is listening on " + port);
