@@ -8,15 +8,18 @@ const router = express.Router();
 const testUrl = require('../controllers/testUrl');
 const linkGen = require('../controllers/linkGenerator');
 const mongoose = require('mongoose');
-
+mongoose.Promise = global.Promise;
 let db = require('../models/db');
 let URL = require('mongoose').model('URL');
 
 
-
+//doesn't work with http or https
 //route for creating links / sending json response
-router.get('/new/:url', (req,res) => {
-  let url = req.params.url;
+router.get('/new/*?', (req,res) => {
+  //http://localhost:3000/new/test.com
+  let url = req.params[0];
+  console.log(url);
+
 
   //check if url is valid
   if (testUrl(url)) {
@@ -39,6 +42,8 @@ router.get('/new/:url', (req,res) => {
     if (exists === false){
     //create new link number
     let id = linkGen();
+
+    //console.log(idForDb);
     //create a new short url
     let shortUrl = 'localhost:3000/' + id;
 
@@ -47,15 +52,26 @@ router.get('/new/:url', (req,res) => {
       link_id: id,
       short_url:shortUrl
     });
-    //save into db
-    newShortUrl.save((err) => {
-      if (err) return console.error(err);
-    });
+    //save object into db
+    db.saveLink(newShortUrl)
+    //get url from that object
+    .then(() => {
+
+      return db.getLink(url);
+    })
     //send response
-    db.getLink(url).then(getShortObj);
-  //if url does exist in db
+    .then((obj) => {
+
+      res.json(obj);
+    })
+
+
   } else {
-    db.getLink(url).then(getShortObj);
+    db.getLink(url)
+    .then((obj) => {
+
+      res.json(obj);
+    })
 
   }
 
@@ -64,7 +80,7 @@ router.get('/new/:url', (req,res) => {
   function getShortObj(urlObj, reject) {
     if (reject) return console.error(reject);
 
-    res.json({urlObj});
+    return urlObj;
   }
 
 

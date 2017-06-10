@@ -8,7 +8,11 @@ User Story: When I visit that shortened URL,
 it will redirect me to my original link.
 
  */
-
+/* true
+false
+1226
+saved
+*/
 
 
  const express = require('express');
@@ -21,8 +25,8 @@ it will redirect me to my original link.
  mongoose.connect('mongodb://localhost:27017/shorturl');
 
  app.use(express.static('public'));
- app.use('/', createURL);
- app.use('/', redirectURL);
+ app.use(createURL);
+ app.use(redirectURL);
 
  app.listen(port, () => {
     console.log("Server is listening on " + port);

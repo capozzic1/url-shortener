@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
-
+mongoose.Promise = global.Promise;
 //makes a schema
 let URLSchema = new Schema({
   original_url : { type: String, unique: true },
@@ -39,9 +39,31 @@ module.exports = {
     getLink(url){
       return new Promise((resolve, reject) => {
         URL.find({original_url: url}, {'_id' : 0, '__v': 0}, (err, url) => {
-          if (err) return console.error(err);
+          if (err) console.error(err);
           resolve(url);
         })
+      })
+    },
+
+    getLinkById(id){
+      return new Promise((resolve, reject) => {
+        URL.find({link_id: id}, {'_id' : 0, '__v': 0}, (err, obj) => {
+          if (err) return console.log(err + "Cannot get obj by link id");
+        //  console.log(test[0].link_id);
+
+          resolve(obj);
+        })
+      })
+    },
+
+    saveLink(shortUrl){
+
+      return new Promise((resolve, reject) => {
+        shortUrl.save((err) => {
+          if (err) return console.error(err);
+          console.log("saved");
+          resolve();
+        });
       })
     }
 }

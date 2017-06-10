@@ -6,24 +6,61 @@ const mongoose = require('mongoose');
 
 let db = require('../models/db');
 let URL = require('mongoose').model('URL');
-
+mongoose.Promise = global.Promise;
 // http://localhost:3000/blahblah
 
 
-router.get('/:url', (req, res) => {
-    console.log(req.params.url);
-    let url = req.params.url;
+router.get('/*?', (req, res) => {
 
 
 
-    db.getLink(url).then(getShortObj);
+    let id = req.params[0];
+    if (checkInput(id) === false) {
+      res.send("Please enter in a number as part of the URL, no letters");
+
+    }
+
+    db.getLinkById(id)
+    .then((urlObj) => {
+      return getShortObj(urlObj);
+    })
+    .then((result) => {
+      return redirect(result);
+    });
+
+
+    function getShortObj(urlObj) {
+
+      return urlObj;
+    };
+
+    function redirect(shortObj){
+
+    let url = shortObj[0].original_url;
+
+      if (url.includes("http") || url.includes("https")) {
+        res.redirect(url);
+
+      } else {
+        let httpUrl = "http://" + url;
+        res.redirect(httpUrl);
+
+      }
+
+    };
+
+    function checkInput(input){
+
+      let check = Number(input);
+
+      if (isNaN(check)) {
+
+        return false;
+      }
+    }
+
 });
 
-function getShortObj(urlObj, reject) {
-  if (reject) return console.error(reject);
-
-  console.log(urlObj);
-}
 
 
 module.exports = router;
