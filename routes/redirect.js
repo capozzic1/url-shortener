@@ -18,8 +18,7 @@ router.get('/*?', (req, res) => {
     if (checkInput(id) === false) {
       res.send("Please enter in a number as part of the URL, no letters");
 
-    }
-
+    } else {
     db.getLinkById(id)
     .then((urlObj) => {
       return getShortObj(urlObj);
@@ -27,7 +26,7 @@ router.get('/*?', (req, res) => {
     .then((result) => {
       return redirect(result);
     });
-
+    }
 
     function getShortObj(urlObj) {
 
@@ -49,6 +48,8 @@ router.get('/*?', (req, res) => {
 
     };
 
+
+
     function checkInput(input){
 
       let check = Number(input);
@@ -57,7 +58,11 @@ router.get('/*?', (req, res) => {
 
         return false;
       }
+
+      return true;
     }
+
+
 
 });
 
