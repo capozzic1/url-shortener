@@ -9,9 +9,9 @@
  const redirectURL = require('./routes/redirect')
  const app = express();
  const mongoose = require('mongoose');
-
- mongoose.connect('mongodb://heroku_kzd0sz0r:summer89@ds119682.mlab.com:19682/heroku_kzd0sz0r');
-
+ const uri = process.env.MONGOLAB_URI;
+ mongoose.connect(uri);
+ 
  app.use(express.static('public'));
  app.use(createURL);
  app.use(redirectURL);
