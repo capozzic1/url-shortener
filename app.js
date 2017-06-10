@@ -1,7 +1,7 @@
 
 
 
-//https://shorturlcc.herokuapp.com/
+
 
  const express = require('express');
  const port = process.env.PORT || 3000;
@@ -11,8 +11,10 @@
  const mongoose = require('mongoose');
  const uri = process.env.MONGOLAB_URI;
  mongoose.connect(uri);
- 
+
+//for static files like css and index.html
  app.use(express.static('public'));
+ //to get my routes
  app.use(createURL);
  app.use(redirectURL);
 

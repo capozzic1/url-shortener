@@ -8,18 +8,10 @@ let URLSchema = new Schema({
   short_url : { type : String }
 });
 
-//make a model
+
 
 let URL = module.exports = mongoose.model('URL', URLSchema);
 
-/*let newShortUrl = new URL({
-  original_url : "www.yolo.com",
-  link_id: 7777,
-  short_url:"yolo"
-});
-*/
-
-//console.log(newShortUrl);
 
 module.exports = {
     checkUrl(url){

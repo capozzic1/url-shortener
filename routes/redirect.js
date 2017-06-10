@@ -9,17 +9,18 @@ let URL = require('mongoose').model('URL');
 mongoose.Promise = global.Promise;
 
 
-
+//route for redirecting to another url
 router.get('/*?', (req, res) => {
 
 
-
+  //grab input
     let id = req.params[0];
+    //if input is not a number, return an error
     if (checkInput(id) === false) {
       res.send("Please enter in a number as part of the URL, no letters");
 
     } else {
-
+    //get link, then redirect
     db.getLinkById(id)
     .then((urlObj) => {
       return getShortObj(urlObj);
@@ -49,7 +50,6 @@ router.get('/*?', (req, res) => {
       }
 
     };
-
 
 
     function checkInput(input){
