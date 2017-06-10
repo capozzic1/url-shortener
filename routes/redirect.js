@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 let db = require('../models/db');
 let URL = require('mongoose').model('URL');
 mongoose.Promise = global.Promise;
-// http://localhost:3000/blahblah
+
 
 
 router.get('/*?', (req, res) => {
@@ -19,6 +19,7 @@ router.get('/*?', (req, res) => {
       res.send("Please enter in a number as part of the URL, no letters");
 
     } else {
+
     db.getLinkById(id)
     .then((urlObj) => {
       return getShortObj(urlObj);
@@ -26,6 +27,7 @@ router.get('/*?', (req, res) => {
     .then((result) => {
       return redirect(result);
     });
+
     }
 
     function getShortObj(urlObj) {

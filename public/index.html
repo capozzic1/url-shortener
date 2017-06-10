@@ -23,7 +23,7 @@
         <!-- Add your site or application content here -->
         <div class="container-fluid">
           <div class="row">
-        <div class="user-stories col-md-5">
+        <div class="user-stories col-md-4 col-md-offset-1">
         <h2 class="text-center">A URL Shortener Microservice</h2>
         <ul>
           <li>User Story: I can pass a URL as a parameter
@@ -36,20 +36,23 @@
             it will redirect me to my original link.</li>
         </ul>
       </div>
-        <div class="examples col-md-7">
+        <div class="examples col-md-6 col-md-offset-1">
           <h2>Example creation usage</h2>
-          <p>https://little-url.herokuapp.com/new/https://www.google.com</p>
+          <p>https://shorturlcc.herokuapp.com/new/https://www.google.com</p>
 
           <h2>Example output</h2>
           <p>
-          {
-          "original_url": "https://www.google.com",
-          "short_url": "https://little-url.herokuapp.com/7031"
-          }
+            [
+            {
+            "original_url": "https://www.google.com",
+            "link_id": 1668,
+            "short_url": "https://shorturlcc.herokuapp.com/1668"
+            }
+            ]
           </p>
 
           <h2>Usage</h2>
-          <p>https://little-url.herokuapp.com/7031</p>
+          <p>https://shorturlcc.herokuapp.com/1668</p>
 
           <h2>Will redirect to:</h2>
           <p>https://www.google.com</p>

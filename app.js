@@ -1,19 +1,7 @@
-/* User Story: I can pass a URL as a parameter
-and I will receive a shortened URL in the JSON response.
 
-User Story: If I pass an invalid URL that
-doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.
 
-User Story: When I visit that shortened URL,
-it will redirect me to my original link.
 
- */
-/* true
-false
-1226
-saved
-*/
-
+//https://shorturlcc.herokuapp.com/
 
  const express = require('express');
  const port = process.env.PORT || 3000;
@@ -22,7 +10,7 @@ saved
  const app = express();
  const mongoose = require('mongoose');
 
- mongoose.connect('mongodb://localhost:27017/shorturl');
+ mongoose.connect('mongodb://heroku_kzd0sz0r:summer89@ds119682.mlab.com:19682/heroku_kzd0sz0r');
 
  app.use(express.static('public'));
  app.use(createURL);

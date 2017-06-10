@@ -32,10 +32,10 @@ router.get('/new/*?', (req,res) => {
     });
 
   } else {
-  console.log("Url is not valid");
+  res.send("URL is not valid. Please try again");
   }
 
-
+//
   function handleLinks([exists, url]){
     console.log(exists);
 
@@ -45,7 +45,7 @@ router.get('/new/*?', (req,res) => {
 
     //console.log(idForDb);
     //create a new short url
-    let shortUrl = 'localhost:3000/' + id;
+    let shortUrl = 'https://shorturlcc.herokuapp.com/' + id;
 
     let newShortUrl = new URL({
       original_url : url,
